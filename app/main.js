@@ -7,13 +7,6 @@ from './component.jsx';
 main();
 
 function main() {
-	var data = [{
-		author: "Pete Hunt",
-		text: "This is one comment"
-	}, {
-		author: "Jordan Walke",
-		text: "This is *another* comment"
-	}];
-	// React.render(<Hello />, document.getElementById('app'))
-	React.render(<CommentBox data = {data} />, document.getElementById('app'))
+	React.render(<Hello />, document.getElementById('header'))
+	React.render(<CommentBox url = 'http://7xnei3.com1.z0.glb.clouddn.com/comments.json' pollInterval = {2000} />, document.getElementById('app'))
 }

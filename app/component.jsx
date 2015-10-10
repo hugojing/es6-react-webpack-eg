@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 var style = {
 	backgroundColor: '#EEE',
@@ -17,12 +18,37 @@ class Hello extends React.Component {
 	}
 }
 
+/* http://7xnei3.com1.z0.glb.clouddn.com/comments.json */
 class CommentBox extends React.Component {
+	loadCommentsFromServer() {
+		$.ajax({
+			url: this.props.url,
+			dataType: 'json',
+			success: (data) => {
+				this.setState({
+					data: data
+				});
+			},
+			error: (xhr, status, err) => {
+				console.error(this.props.url, status, err.toString());
+			}
+		});
+	}
+	constructor() {
+		super();
+		this.state = {
+			data: []
+		};
+	}
+	componentDidMount() {
+		this.loadCommentsFromServer();
+		setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+	}
 	render() {
 		return (
 			<div className='commentBox'>
 				<h1>Comments</h1>
-				<CommentList data = {this.props.data} />
+				<CommentList data = {this.state.data} />
 				<CommentForm />
 			</div>
 		)
